@@ -18,5 +18,6 @@ Destination Management: The project demonstrates how different destinations can 
 <H1>Prerequisites</H1>
 Before you begin, ensure you have met the following requirements:
 
-A C++ compiler installed on your system (e.g., g++, Visual C++).
+A C++ compiler installed on your system (e.g., Visual Studio Code,Dev-C++).
+
 Basic knowledge of C++ programming and object-oriented principles.
