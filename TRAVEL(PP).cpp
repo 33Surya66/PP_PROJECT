@@ -2,6 +2,37 @@
 #include<conio.h>
 using namespace std;
 
+
+void menu();
+
+
+class Manage
+{
+	private:
+	    string user; //hide admin name
+	
+	public:
+	    
+	    Manage()//Constructor
+	    {
+	    	cout<<"\n\n\n\n\n\t\t   Welcome To Symbi Agency"<<endl;
+	        cout << "\t  Enter Your Name to Continue further: ";
+	        cin >> user;
+	        cout<<"\n\t\t\tHello "<<user<<endl;
+	        cout<<"\n\t\t   Press any key to Continue"<<endl;
+	        getch();
+	        system("CLS");
+			menu();
+		
+	    }
+	
+	    ~Manage()
+		{
+			
+		} //Destructor
+	
+};
+
 int BookNum = 0; //Variable to count the number of bookings.
 class Package
 {
@@ -11,12 +42,12 @@ class Package
 	int CNo;
 	int Duration;
 	int Package_price;
-		void Display();
-		friend class Customer;
-		Package()
-		{
-			
-		}
+	void Display();
+	friend class Customer;
+	Package()
+	{
+		
+	}
 };
 
 class Customer
@@ -27,7 +58,6 @@ class Customer
 		char LName[60];
 		string Mobile;
 		char Email[30];
-		int j;
 		Customer()
 		{
 			
@@ -64,7 +94,7 @@ class Customer
 		void cancel();
 };
 
-//class details is inherited from Customer and Package classes
+//MULLTIPLE INHERITANCE: class details is inherited from Customer and Package classes
 class details : public Customer,public Package
 {
 	public:
@@ -118,10 +148,17 @@ void Package::Display()
 //Prints the records of all existing bookings.
  void details::record()
 {
-	cout<<resetiosflags(ios::left)<<endl<<setfill('*')<<setw(23)<<" CUSTOMER DETAILS "<<setw(5)<<""<<endl;
-	for(j=0; j < BookNum ;j++)
+	if(BookNum == 0)
 	{
-		cout<<" CUSTOMER "<<j+1<<Cust[j]<<endl;
+		cout<<" No entries exist!"<<endl;
+	}
+	else
+	{
+		cout<<resetiosflags(ios::left)<<endl<<setfill('*')<<setw(23)<<" CUSTOMER DETAILS "<<setw(5)<<""<<endl;
+		for(int j=0; j < BookNum ;j++)
+		{
+			cout<<" CUSTOMER "<<j+1<<Cust[j]<<endl;
+		}
 	}
 	cout<<" PRESS ANY KEY TO RETURN TO MENU ";
 	getch();
@@ -133,34 +170,47 @@ inline void Customer::cancel()
 {
 	int i;
 	int x;
-	HERE: cout<<" Total number of customers: "<<j<<endl;
-	cout<<" Enter Customer number of the booking you wish to cancel: ";
-	cin>>x;
-	if(x<0 || x>j)
+	if(BookNum == 0)
 	{
-		cout<<" Cancellation Failed!"<<endl<<" Enter a valid customer number!"<<endl;
-		goto HERE;
+		cout<<" No entries exist for cancellation!"<<endl;
+		cout<<" PRESS ANY KEY TO RETURN TO MENU ";
+		getch();
+		system("CLS");
 	}
 	else
 	{
-		for(i=x;i<j;i++)
+		HERE: cout<<" Total number of customers: "<<BookNum<<endl;
+		cout<<" Enter Customer number of the booking you wish to cancel: ";
+		cin>>x;
+		if(x<0 || x>BookNum)
 		{
-			Cust[i-1]=Cust[i];
-			strcpy(Cust[i].FName, ""); 
-			strcpy(Cust[i].LName, ""); 
-			Cust[i].Mobile = '\0';       
-			strcpy(Cust[i].Email, "");	
+			cout<<" Cancellation Failed!"<<endl<<" Enter a valid customer number!"<<endl;
+			goto HERE;
 		}
-		cout<<" Cancellation Done!"<<endl;
+		else
+		{
+			for(i=x;i<BookNum;i++)
+			{
+				Cust[i-1]=Cust[i];
+				strcpy(Cust[i].FName, ""); 
+				strcpy(Cust[i].LName, ""); 
+				Cust[i].Mobile = '\0';       
+				strcpy(Cust[i].Email, "");	
+			}
+			cout<<" Cancellation Done!"<<endl;
+			BookNum--;
+		}
+		//Method to clear screen and return to menu afer performing an action
+		cout<<" PRESS ANY KEY TO RETURN TO MENU ";
+		getch();
+		system("CLS");
 	}
-	//Method to clear screen and return to menu afer performing an action
-	cout<<" PRESS ANY KEY TO RETURN TO MENU ";
-	getch();
-	system("CLS");
 }
 
-int main()
+
+void menu()
 {
+	system("color 0a");
 	Package x;
 	int choice;
 	LOOP: 
@@ -193,7 +243,6 @@ int main()
 			//Cancellation
 			Cust[BookNum].cancel();
 			//Every time a booking is cancelled the count is decremented by 1
-			BookNum--;
 			goto LOOP;
 			break;
 			
@@ -209,5 +258,11 @@ int main()
 			cout<<"\n Please enter a number between 1 and 4!"<<endl;
 			goto LOOP;
 	}
+	getch();;
+}
+
+int main()
+{
+	Manage ssss;
 	return 0;
 }
